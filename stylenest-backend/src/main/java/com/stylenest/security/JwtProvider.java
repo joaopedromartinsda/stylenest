@@ -1,29 +1,34 @@
 package com.stylenest.security;
 
+import com.stylenest.model.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JwtProvider {
 
-    // Chave secreta (deve ter pelo menos 64 bytes para HS512)
-    private static final String JWT_SECRET = "sua-chave-super-secreta-de-64-bytes-ou-mais-para-HS512-segura";
-    
-    // Tempo de expiração do token (ex: 1 hora)
-    private static final long EXPIRATION = 3600000;
+    private final SecretKey key;
+    private final long expiration;
 
-    private final SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET.getBytes());
+    public JwtProvider(@Value("${security.jwt.secret}") String secret,
+                       @Value("${security.jwt.expiration:3600000}") long expiration) {
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.expiration = expiration;
+    }
 
-    public String generateToken(com.stylenest.model.Usuario usuario) {
+    public String generateToken(Usuario usuario) {
+        long now = System.currentTimeMillis();
         return Jwts.builder()
-                .setSubject(usuario.getEmail()) // ou ID, se preferir
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setSubject(usuario.getEmail())
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(now + expiration))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -40,9 +45,9 @@ public class JwtProvider {
     public boolean isTokenValid(String token) {
         try {
             Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token);
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
