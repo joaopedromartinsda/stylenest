@@ -1,0 +1,32 @@
+# Arquivos compilados Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven
+stylenest-backend/target/
+stylenest-backend/.mvn/
+**/target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node modules (se usar futuramente)
+node_modules/
+
+# Configurações locais
+application-local.properties
