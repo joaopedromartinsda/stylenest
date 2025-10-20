@@ -1,49 +1,52 @@
 package com.stylenest.service;
 
-import java.util.Optional;
+import com.stylenest.dto.UsuarioCadastroDTO;
 import com.stylenest.model.Usuario;
 import com.stylenest.repository.UsuarioRepository;
 import com.stylenest.security.JwtProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
-import com.stylenest.dto.UsuarioCadastroDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UsuarioService {
-@Autowired
-private JwtProvider jwtProvider;
 
-public String autenticarRetornaJWT(String email, String senha) {
-    Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
-
-    if (usuarioOpt.isEmpty()) {
-        throw new RuntimeException("Usuário não encontrado");
-    }
-
-    Usuario usuario = usuarioOpt.get();
-
-    if (!BCrypt.checkpw(senha, usuario.getSenha())) {
-        throw new RuntimeException("Senha inválida");
-    }
-
-    return jwtProvider.generateToken(usuario);
-}
+    private final JwtProvider jwtProvider;
+    private final UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    public UsuarioService(JwtProvider jwtProvider, UsuarioRepository usuarioRepository) {
+        this.jwtProvider = jwtProvider;
+        this.usuarioRepository = usuarioRepository;
+    }
 
-    public void cadastrar(UsuarioCadastroDTO dto) {
-        if(usuarioRepository.existsByEmail(dto.getEmail()))
-            throw new RuntimeException("E-mail já cadastrado!");
+    public AuthResult autenticar(String email, String senha) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario nao encontrado"));
 
-        String senhaHash = BCrypt.hashpw(dto.getSenha(), BCrypt.gensalt());
+        if (!BCrypt.checkpw(senha, usuario.getSenha())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Senha invalida");
+        }
+
+        String token = jwtProvider.generateToken(usuario);
+        return new AuthResult(token, usuario);
+    }
+
+    public Usuario cadastrar(UsuarioCadastroDTO dto) {
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ja cadastrado");
+        }
+
         Usuario usuario = new Usuario();
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(senhaHash);
-        usuarioRepository.save(usuario);
+        usuario.setSenha(BCrypt.hashpw(dto.getSenha(), BCrypt.gensalt()));
 
-        
+        return usuarioRepository.save(usuario);
+    }
+
+    public record AuthResult(String token, Usuario usuario) {
     }
 }

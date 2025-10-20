@@ -1,9 +1,8 @@
 com\stylenest\repository\UsuarioRepository.class
-com\stylenest\dto\JwtResponse.class
-com\stylenest\model\Usuario.class
 com\stylenest\controller\UsuarioController.class
 com\stylenest\dto\UsuarioCadastroDTO.class
 com\stylenest\security\JwtProvider.class
+com\stylenest\model\Usuario.class
 com\stylenest\service\UsuarioService.class
 com\stylenest\dto\LoginDTO.class
 com\stylenest\StylenestBackendApplication.class

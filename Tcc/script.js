@@ -2,6 +2,7 @@
 // 🛒 CARRINHO
 // ---------------------------
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+const API_BASE_URL = "http://localhost:8080/api";
 
 // Atualiza contador no ícone do carrinho
 function atualizarCarrinho() {
@@ -92,23 +93,35 @@ if (formLogin) {
     const senha = document.getElementById("login-senha").value;
 
     try {
-      const resposta = await fetch("http://localhost:8080/api/usuarios/login", {
+      const resposta = await fetch(`${API_BASE_URL}/usuarios/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
       });
 
-      const dados = await resposta.json();
+      let dados = null;
+      try {
+        dados = await resposta.json();
+      } catch (err) {
+        dados = null;
+      }
 
-      if (resposta.ok) {
-        alert("✅ Login bem-sucedido!");
-        modalLogin.style.display = "none";
+      if (resposta.ok && dados) {
+        alert("Login concluido com sucesso!");
+        if (modalLogin) {
+          modalLogin.style.display = "none";
+        }
+        localStorage.setItem("token", dados.token);
         localStorage.setItem("usuario", JSON.stringify(dados.usuario));
+        formLogin.reset();
       } else {
-        alert("❌ " + (dados.erro || "Erro ao logar"));
+        const mensagem =
+          (dados && (dados.message || dados.mensagem || dados.erro)) ||
+          "Erro ao fazer login";
+        alert("Erro: " + mensagem);
       }
     } catch (erro) {
-      alert("Erro de conexão com o servidor");
+      alert("Erro de conexao com o servidor");
     }
   });
 }
@@ -124,27 +137,38 @@ if (formRegister) {
     const confirmar = document.getElementById("register-confirmar").value;
 
     if (senha !== confirmar) {
-      alert("❌ As senhas não conferem!");
+      alert("As senhas nao conferem!");
       return;
     }
 
     try {
-      const resposta = await fetch("http://localhost:8080/api/usuarios", {
+      const resposta = await fetch(`${API_BASE_URL}/usuarios`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nome, email, senha }),
       });
 
-      const dados = await resposta.json();
+      let dados = null;
+      try {
+        dados = await resposta.json();
+      } catch (err) {
+        dados = null;
+      }
 
       if (resposta.ok) {
-        alert("✅ Cadastro realizado com sucesso!");
-        modalRegister.style.display = "none";
+        alert("Cadastro concluido com sucesso!");
+        if (modalRegister) {
+          modalRegister.style.display = "none";
+        }
+        formRegister.reset();
       } else {
-        alert("❌ " + (dados.erro || "Erro ao cadastrar"));
+        const mensagem =
+          (dados && (dados.message || dados.mensagem || dados.erro)) ||
+          "Erro ao cadastrar";
+        alert("Erro: " + mensagem);
       }
     } catch (erro) {
-      alert("Erro de conexão com o servidor");
+      alert("Erro de conexao com o servidor");
     }
   });
 }
