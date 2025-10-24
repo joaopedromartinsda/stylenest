@@ -2,7 +2,9 @@
 // 🛒 CARRINHO
 // ---------------------------
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = window.location.hostname.includes("localhost")
+  ? "http://localhost:8080/api"
+  : "https://stylenest-mi9i.onrender.com/api";
 
 // Atualiza contador no ícone do carrinho
 function atualizarCarrinho() {
