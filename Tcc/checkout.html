@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Produto | STYLENEST</title>
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+  <header>
+    <h1>STYLENEST</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="mulher.html">Mulher</a>
+      <a href="homem.html">Homem</a>
+      <a href="kids.html">Kids</a>
+    </nav>
+    <div class="cart-icon-container">
+      <button id="btn-ver-carrinho" class="cart-btn" title="Ver Carrinho">
+        🛒 <span class="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="produto-detalhe">
+    <!-- Galeria -->
+    <div class="galeria">
+      <img id="imagem-principal" class="principal">
+      <div class="thumbnails">
+        <!-- Miniaturas serão adicionadas dinamicamente -->
+      </div>
+    </div>
+
+    <!-- Detalhes -->
+    <div class="detalhes">
+      <h1 id="nome-produto"></h1>
+      <p class="preco" id="preco-produto"></p>
+
+      <div class="tamanhos">
+        <p>Escolha o tamanho:</p>
+        <div class="tamanhos-grid">
+          <button class="size-btn" data-size="P">P</button>
+          <button class="size-btn" data-size="M">M</button>
+          <button class="size-btn" data-size="G">G</button>
+          <button class="size-btn" data-size="GG">GG</button>
+        </div>
+      </div>
+
+      <div class="acoes">
+        <button id="btn-add-cart">Adicionar ao Carrinho</button>
+        <!-- Remova ou comente a linha abaixo -->
+        <!-- <button id="btn-comprar-agora">Comprar Agora </button> -->
+      </div>
+
+      <!-- Modal do carrinho -->
+      <div id="modal-carrinho" class="modal-carrinho" style="display:none;">
+        <div class="modal-content">
+          <span id="close-modal" class="close">&times;</span>
+          <h2>Itens no Carrinho</h2>
+          <div id="lista-carrinho"></div>
+          <button id="btn-comprar-agora" style="margin-top:16px;">Comprar Agora</button>
+        </div>
+      </div>
+
+      <section class="avaliacoes">
+        <h2>Avaliações</h2>
+        <div class="comentario">
+          ⭐⭐⭐⭐⭐ <br>
+          <p>Excelente qualidade, tecido leve e confortável.</p>
+        </div>
+        <div class="comentario">
+          ⭐⭐⭐⭐☆ <br>
+          <p>Gostei muito, mas achei o tamanho um pouco pequeno.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- JS externo -->
+  <script src="checkout.js"></script>
+</body>
+</html>

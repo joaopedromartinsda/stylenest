@@ -1,0 +1,67 @@
+.carrinho-main {
+  display: flex;
+  gap: 40px;
+  margin: 40px auto;
+  max-width: 1100px;
+}
+.carrinho-produtos {
+  flex: 2;
+  background: #181818;
+  padding: 32px;
+  border-radius: 12px;
+}
+.carrinho-resumo {
+  flex: 1;
+  background: #181818;
+  padding: 32px;
+  border-radius: 12px;
+}
+.produto-carrinho {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.produto-carrinho img {
+  width: 80px;
+  border-radius: 8px;
+}
+.produto-carrinho .info {
+  flex: 1;
+}
+.produto-carrinho .preco {
+  font-weight: bold;
+}
+.resumo-valores {
+  margin: 24px 0;
+}
+.resumo-valores div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+#continuar-pagamento {
+  width: 100%;
+  padding: 14px;
+  border-radius: 30px;
+  border: 1px solid #fff;
+  background: none;
+  color: #fff;
+  font-size: 1.1em;
+  margin-top: 20px;
+  cursor: pointer;
+}
+input, button {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  margin-top: 6px;
+}
+input {
+  width: 120px;
+}
+#frete-info, #cupom-info {
+  font-size: 0.95em;
+  color: #6f6;
+  margin-top: 4px;
+}
