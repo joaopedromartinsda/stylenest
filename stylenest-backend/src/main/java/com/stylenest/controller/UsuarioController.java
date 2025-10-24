@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {
         "http://127.0.0.1:5500",
         "http://localhost:5500",
-        "https://stylenest.netlify.app"
+        "http://localhost:3000",
+        "https://stylenest.netlify.app",
+        "https://stylenest-on.netlify.app"
 })
 @Tag(name = "Usuarios", description = "Operacoes de autenticacao e cadastro de usuarios.")
 public class UsuarioController {
