@@ -1,5 +1,5 @@
 // Configuração da API
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = 'https://stylenest-mi9i.onrender.com/api/auth';
 
 // Classe para gerenciar autenticação
 class AuthService {
