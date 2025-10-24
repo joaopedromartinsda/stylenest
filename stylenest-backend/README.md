@@ -45,3 +45,12 @@ docker run --rm -p 8080:8080 \
 3. Configure as variaveis de ambiente (`SPRING_*` ou `PG*`) conforme o banco utilizado.
 4. A porta exposta deve ser `8080`.
 5. Caso utilize um Postgres gerenciado (Render, Neon, etc.), aproveite a URL/credenciais fornecidas pelo provedor.
+
+## Documentacao Swagger
+
+O projeto expõe a interface em `/swagger-ui/index.html`.
+
+- Local: `http://localhost:8080/swagger-ui/index.html`
+- Render: `https://stylenest-mi9i.onrender.com/swagger-ui/index.html`
+
+As definicoes OpenAPI ficam disponiveis em `/v3/api-docs`.
