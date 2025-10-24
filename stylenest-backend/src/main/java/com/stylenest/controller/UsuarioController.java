@@ -17,7 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = {"http://127.0.0.1:5500", "http://localhost:5500"})
+@CrossOrigin(origins = {
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "http://localhost:3000",
+        "https://stylenest.netlify.app",
+        "https://stylenest-on.netlify.app"
+})
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
