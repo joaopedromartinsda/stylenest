@@ -28,14 +28,18 @@ public class Produto {
     @Column(name = "imagem_url")
     private String imagemUrl;
 
+    @Column(nullable = false)
+    private String categoria;
+
     public Produto() {
     }
 
-    public Produto(String nome, String descricao, BigDecimal preco, String imagemUrl) {
+    public Produto(String nome, String descricao, BigDecimal preco, String imagemUrl, String categoria) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.imagemUrl = imagemUrl;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -76,5 +80,13 @@ public class Produto {
 
     public void setImagemUrl(String imagemUrl) {
         this.imagemUrl = imagemUrl;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

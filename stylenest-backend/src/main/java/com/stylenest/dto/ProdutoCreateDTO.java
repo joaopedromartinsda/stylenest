@@ -1,23 +1,13 @@
 package com.stylenest.dto;
 
-import com.stylenest.model.Produto;
 import java.math.BigDecimal;
 
-public class ProdutoDTO {
-    private Long id;
+public class ProdutoCreateDTO {
     private String nome;
     private String descricao;
     private BigDecimal preco;
     private String imagemUrl;
     private String categoria;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -57,16 +47,5 @@ public class ProdutoDTO {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }
-
-    public static ProdutoDTO fromEntity(Produto produto) {
-        ProdutoDTO dto = new ProdutoDTO();
-        dto.setId(produto.getId());
-        dto.setNome(produto.getNome());
-        dto.setDescricao(produto.getDescricao());
-        dto.setPreco(produto.getPreco());
-        dto.setImagemUrl(produto.getImagemUrl());
-        dto.setCategoria(produto.getCategoria());
-        return dto;
     }
 }
