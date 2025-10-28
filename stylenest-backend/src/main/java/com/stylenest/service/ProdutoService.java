@@ -32,6 +32,15 @@ public class ProdutoService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<ProdutoDTO> listarPorCategoria(String categoria) {
+        String categoriaNormalizada = validarCategoria(categoria);
+        return produtoRepository.findByCategoriaIgnoreCase(categoriaNormalizada)
+                .stream()
+                .map(ProdutoDTO::fromEntity)
+                .toList();
+    }
+
     @Transactional
     public ProdutoDTO criarProduto(ProdutoCreateDTO dto) {
         validarRequisitos(dto);
@@ -41,7 +50,7 @@ public class ProdutoService {
         produto.setDescricao(dto.getDescricao());
         produto.setPreco(dto.getPreco());
         produto.setImagemUrl(dto.getImagemUrl());
-        produto.setCategoria(normalizarCategoria(dto.getCategoria()));
+        produto.setCategoria(validarCategoria(dto.getCategoria()));
 
         Produto salvo = produtoRepository.save(produto);
         return ProdutoDTO.fromEntity(salvo);
@@ -55,18 +64,18 @@ public class ProdutoService {
         if (dto.getPreco() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Preco obrigatorio");
         }
+    }
 
-        if (dto.getCategoria() == null || dto.getCategoria().isBlank()) {
+    private String validarCategoria(String categoria) {
+        if (categoria == null || categoria.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria obrigatoria");
         }
 
-        String categoriaNormalizada = dto.getCategoria().trim().toLowerCase();
+        String categoriaNormalizada = categoria.trim().toLowerCase();
         if (!CATEGORIAS_VALIDAS.contains(categoriaNormalizada)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria invalida. Use kids, mas ou fem.");
         }
-    }
 
-    private String normalizarCategoria(String categoria) {
-        return categoria.trim().toLowerCase();
+        return categoriaNormalizada;
     }
 }
