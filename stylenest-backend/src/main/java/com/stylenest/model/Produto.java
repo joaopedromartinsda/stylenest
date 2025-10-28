@@ -1,15 +1,46 @@
-package com.stylenest.dto;
+package com.stylenest.model;
 
-import com.stylenest.model.Produto;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 
-public class ProdutoDTO {
+@Entity
+@Table(name = "produtos")
+public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String nome;
+
+    @Column(length = 1000)
     private String descricao;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
+
+    @Column(name = "imagem_url")
     private String imagemUrl;
+
+    @Column(nullable = false)
     private String categoria;
+
+    public Produto() {
+    }
+
+    public Produto(String nome, String descricao, BigDecimal preco, String imagemUrl, String categoria) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.imagemUrl = imagemUrl;
+        this.categoria = categoria;
+    }
 
     public Long getId() {
         return id;
@@ -57,16 +88,5 @@ public class ProdutoDTO {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
-    }
-
-    public static ProdutoDTO fromEntity(Produto produto) {
-        ProdutoDTO dto = new ProdutoDTO();
-        dto.setId(produto.getId());
-        dto.setNome(produto.getNome());
-        dto.setDescricao(produto.getDescricao());
-        dto.setPreco(produto.getPreco());
-        dto.setImagemUrl(produto.getImagemUrl());
-        dto.setCategoria(produto.getCategoria());
-        return dto;
     }
 }
