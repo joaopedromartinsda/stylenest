@@ -19,7 +19,8 @@ public class CorsConfig {
                                 "http://localhost:5500",
                                 "http://localhost:3000",
                                 "https://stylenest.netlify.app",
-                                "https://stylenest-on.netlify.app")
+                                "https://stylenest-on.netlify.app",
+                                "https://stylenest-on.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
