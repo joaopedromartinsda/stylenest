@@ -54,3 +54,14 @@ O projeto expõe a interface em `/swagger-ui/index.html`.
 - Render: `https://stylenest-mi9i.onrender.com/swagger-ui/index.html`
 
 As definicoes OpenAPI ficam disponiveis em `/v3/api-docs`.
+
+## Healthcheck
+
+Endpoint simples para verificar o funcionamento da API e do banco de dados:
+
+- `GET /api/health`
+
+Respostas:
+
+- 200 OK: `{ "service": "stylenest-backend", "timestamp": "...", "status": "UP", "db": "UP" }`
+- 503 Service Unavailable (quando o banco estiver indisponível): `{ "service": "stylenest-backend", "timestamp": "...", "status": "DOWN", "db": "DOWN", "error": "..." }`
